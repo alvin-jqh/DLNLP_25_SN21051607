@@ -1,4 +1,3 @@
-import evaluate
 from tqdm import tqdm
 import torch
 from torch.utils.data import DataLoader
@@ -19,7 +18,7 @@ def post_process_batch(tokenized_test, data_batch, example_to_features, model, d
     end_probs = torch.empty((len(t_tokenized_test), 384), device=device)
 
     model.eval()  # Set the model to evaluation mode
-    print("model inputing")
+    # print("model inputing")
     with torch.no_grad():
         for i, batch in enumerate(test_dataloader):
             batch = {k: v.to(device) for k, v in batch.items()}
@@ -49,9 +48,9 @@ def post_process_batch(tokenized_test, data_batch, example_to_features, model, d
 
     max_prob_indices = torch.argsort(best_probs.view((len(t_tokenized_test), -1)), dim=1, descending=True)
 
-    print("extracting answers")
+    # print("extracting answers")
     predicted_answers = []
-    for example in tqdm(data_batch):
+    for example in data_batch:
         example_id = example["id"]
         context = example["context"]
         answers = []    # track all answers for this id
